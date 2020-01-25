@@ -54,15 +54,36 @@ def resetDB(conn, tables):
     for table in table_names:
         print("attrs", table, tables.get(table))
         initTableIfDoesntExist(conn, table, tables.get(table))
-    
 
+# Send in connection, table, and a list of column names and values to set
+def insertIntoTable(conn, table_name, insertList):
+    columns, values = zip(*insertList)
+
+    columns=",".join(str(col) for col in columns)
+    values=",".join(f"""'{val}'""" for val in values)
+
+    command = f"""
+        INSERT INTO {table_name}({columns})
+        VALUES
+        ({values})
+    """
+
+    try:
+        cur = conn.cursor()
+        print(command)
+        cur.execute(command)
+        cur.close()
+
+        conn.commit()
+    except:   
+        e = sys.exc_info()[0]
+        print(f"Error adding table{table_name}: {e}")
 
 if __name__ == "__main__":
     conn = pg.connect(host=db_url, database=db_name, user=user, password=pw)
 
-    #initTableIfDoesntExist(conn, 'parking_spots', tables['parking_spots'])
-    #dropTableIfExists(conn, 'parking_spots')
-    resetDB(conn, tables)
+    #resetDB(conn, tables)
+    insertIntoTable(conn, 'person', [('insurance_num', '2')])
 
     conn.close()
     pass
