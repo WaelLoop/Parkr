@@ -28,7 +28,7 @@ ____
 | Attribute  | Type | Extra 
 |---|---|---
 | id  | INT | PK
-| car | CHAR(6)  | FK to vehicles through license
+| vehicle | CHAR(6)  | FK to vehicles through license
 | gender |  VARCHAR(255)  |
 | dob | date |
 | insurance_num | INT |
@@ -41,7 +41,7 @@ ____
 | license | CHAR(6) | PK UNIQUE
 | type | VARCHAR(128) |
 | rental | BOOLEAN |
-| model_number | VARCHAR(128) |
+| model | VARCHAR(128) |
 | model_year | INTEGER | 
 | private | BOOLEAN | 
 | owner | INTEGER | FK to person
