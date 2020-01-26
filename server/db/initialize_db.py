@@ -83,7 +83,7 @@ def resetDB(conn, tables):
 
 def seed(conn, tables):
     licensePlates = ['A1B2C3','D4E7H0','Z6P9Y8']
-    phoneNumbers = ['5147425793', '5143719913', '5142222222']
+    phoneNumbers = ['+15147425793', '+14389376453', '+15148021867']
 
     try:
         # seed parking spots

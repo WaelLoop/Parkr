@@ -1,14 +1,32 @@
-from credentials import db_name, user, pw, db_url
-from sql.tables import tables
-from initialize_db import insertIntoTable
+from .credentials import db_name, user, pw, db_url
+from .sql.tables import tables
+from .initialize_db import insertIntoTable
 import psycopg2 as pg
 import sys
+
+def getTableByRow(conn, table, pk):
+    command = f"""
+        SELECT *
+        FROM {table}
+        WHERE {pk[0]}={pk[1]}
+    """
+    try:
+        cur = conn.cursor()
+        cur.execute(command)
+        res = cur.fetchone()
+        cur.close()
+        conn.commit()
+
+        return res
+    except:
+        e = sys.exc_info()[0]
+        print(f"{e}")
 
 def getTableValueByName(conn, table, attr, pk):
     command = f"""
         SELECT {attr}
         FROM {table}
-        WHERE {pk[0]}={pk[1]}
+        WHERE {pk[0]}='{pk[1]}'
     """
     try:
         cur = conn.cursor()
@@ -86,18 +104,29 @@ def updateParkingSpot(conn, license, parkingId):
 
                 # This means that there's been a new car that's come since last time
                 if not license == licenseInDB:
+                    currentSessionId = getTableValueByName(conn, 'parking_spots','session_id',('id', parkingId))
                     # end the current session
                     updateTable(conn, 'parking_sessions', [('end_time','CURRENT_TIMESTAMP')],('id',parkingId))
                     # Start new session for this new license
                     newParkingSession(conn, license, parkingId)
 
+                    # Now we return the user info of the person that just left
+                    return (getTableValueByName(conn, 'vehicles', 'owner',('license', licenseInDB)), currentSessionId)
+
                 # If not then we have the same car there so don't do anything]
             # Here it means no license plate so the car just left
             else:
                 currentSessionId = getTableValueByName(conn, 'parking_spots','session_id',('id', parkingId))
+                print('yello',currentSessionId)
                 updateTable(conn, 'parking_spots', [('session_id','NULL')],('id',parkingId))
+                print('hello')
                 # end the session
                 updateTable(conn, 'parking_sessions',[('end_time','CURRENT_TIMESTAMP')],('id',currentSessionId))
+                print('allo')
+                print(getTableValueByName(conn, 'vehicles', 'owner',('license', res[0])))
+                # Now we return the user info of the person that just left
+                return (getTableValueByName(conn, 'vehicles', 'owner',('license', res[0])), currentSessionId)
+
         conn.commit()
     except:
         e = sys.exc_info()[0]
