@@ -7,6 +7,7 @@ parking_spot_attrs = """
 
 person_attrs = """
     ID SERIAL PRIMARY KEY,
+    NAME VARCHAR(255),
     VEHICLE CHAR(7),
     PHONE_NUM VARCHAR(15),
     GENDER VARCHAR(31) DEFAULT 'male',

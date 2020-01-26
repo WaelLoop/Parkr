@@ -89,12 +89,12 @@ def seed(conn, tables):
         # seed parking spots
         for i in range(3):
             insertIntoTable(conn,'parking_spots', [('address',fake.address())])
-            insertIntoTable(conn, 'person',[('vehicle',licensePlates[i]),('gender','male'),('dob','1997-03-22'),('phone_num',phoneNumbers[i])])
+            insertIntoTable(conn, 'person',[('name', fake.name()),('vehicle',licensePlates[i]),('gender','male'),('dob','1997-03-22'),('phone_num',phoneNumbers[i])])
             insertIntoTable(conn, 'vehicles',[('license',licensePlates[i]),('owner',i+1),('type','sedan'),('model','AE3'),('model_year','2008')])   
 
     except:
         e = sys.exc_info()[0]
-        print(f"Error adding table{table_name}: {e}")
+        print(f"Error adding table{tables}: {e}")
 
 if __name__ == "__main__":
     conn = pg.connect(host=db_url, database=db_name, user=user, password=pw)
