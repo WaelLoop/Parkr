@@ -1,5 +1,6 @@
 from db.credentials import db_name, user, pw, db_url
 from db.initialize_db import insertIntoTable
+from auth_token import auth_token
 from flask import Flask, request
 from twilio.rest import Client
 import psycopg2
@@ -44,9 +45,7 @@ def getHeatMaps():
 # send sms when OPENING a session and when closing a session
 @app.route('/smsTest')
 def sms():
-    account_sid = 'AC21e9227565ca47b0068120482bc4547d'
-    auth_token = 'd0e220f950095f9fa292666afde9c769'
-    client = Client(account_sid, auth_token)
+    client = Client('AC21e9227565ca47b0068120482bc4547d', auth_token)
     msg = 'You have just claimed your parking spot! You will now start being charged. Thank you for using Parkr! Drive safe, drive smart!'
     usr = '+14389376453'
     message = client.messages.create(from_ = '+12017293896', body = msg, to = usr)
