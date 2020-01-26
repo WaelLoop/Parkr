@@ -1,6 +1,6 @@
 # Initalizes the database tables and seeds
-from server.db.credentials import db_name, user, pw, db_url
-from server.db.sql.tables import tables
+from db.credentials import db_name, user, pw, db_url
+from db.sql.tables import tables
 import psycopg2 as pg
 import sys
 from faker import Faker
@@ -82,7 +82,7 @@ def resetDB(conn, tables):
         initTableIfDoesntExist(conn, table, tables.get(table))
 
 def seed(conn, tables):
-    licensePlates = ['A1B2C3','D4E7H0','Z6P9Y8']
+    licensePlates = ['756JWB','123ABC','890XYZ']
     phoneNumbers = ['+15147425793', '+14389376453', '+15148021867']
 
     try:
