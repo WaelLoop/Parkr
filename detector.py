@@ -2,9 +2,7 @@ import time
 from google.cloud import vision
 import io
 import os
-import cv2
 from autoPicture import main
-import subprocess
 from arduino.pyduino import trigger
 
 """
@@ -121,14 +119,14 @@ def computerVisionPipeline():
     time.sleep(1)
 
     # Send the requests to flask server
-    host = '132.205.229.124'
-    command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
-    command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
-    command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
+    host = '127.0.0.1'
+    command = f'curl -s \"{host}:5000/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}\"'
+    command2 = f'curl -s \"{host}:5000/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}\"'
+    command3 = f'curl -s \"{host}:5000/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}\"'
 
-    subprocess.call(command, shell=True)
-    subprocess.call(command2, shell=True)
-    subprocess.call(command3, shell=True)
+    os.system(command)
+    os.system(command2)
+    os.system(command3)
 
 
 if __name__ == '__main__':
