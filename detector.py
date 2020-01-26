@@ -15,10 +15,14 @@ NOTE: Image1 holds the parkingID = 1
 # function that reads image1
 def readImage1():
     licensePlate = detect_text(os.path.join("images", "image1.jpg"))
+    licensePlate = licensePlate.split('\n')
     print(licensePlate)
+
+    lst = [lp for lp in licensePlate if (lp.isupper() and len(lp) == 7)]
+
     parkingID = 1
-    if (licensePlate.isupper() and len(licensePlate) == 7):
-        return licensePlate, parkingID
+    if len(lst) == 1:
+        return lst[0], parkingID
     else:
         licensePlate = ""
         return licensePlate,parkingID
@@ -96,12 +100,16 @@ def computerVisionPipeline():
         # Turn off, Occupied
         trigger(0)
 
+    time.sleep(1)
+
     if licensePlate2 == "":
         # Turn on
         trigger(3)
     else:
         # Turn off, Occupied
         trigger(2)
+
+    time.sleep(1)
 
     if licensePlate3 == "":
         # Turn on
@@ -110,15 +118,17 @@ def computerVisionPipeline():
         # Turn off, Occupied
         trigger(4)
 
-    # # Send the requests to flask server
-    # host = '132.205.229.124'
-    # command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
-    # command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
-    # command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
-    #
-    # subprocess.call(command, shell=True)
-    # subprocess.call(command2, shell=True)
-    # subprocess.call(command3, shell=True)
+    time.sleep(1)
+
+    # Send the requests to flask server
+    host = '132.205.229.124'
+    command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
+    command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
+    command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
+
+    subprocess.call(command, shell=True)
+    subprocess.call(command2, shell=True)
+    subprocess.call(command3, shell=True)
 
 
 if __name__ == '__main__':
