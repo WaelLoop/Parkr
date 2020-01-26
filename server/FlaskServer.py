@@ -94,14 +94,6 @@ def getParkingSpots():
 def getHeatMaps():
     return "connect & query postgresql database for statistics"
 
-# send sms when OPENING a session and when closing a session
-@app.route('/smsTest')
-def sms():
-    client = Client('AC21e9227565ca47b0068120482bc4547d', auth_token)
-    msg = 'You have just claimed your parking spot! You will now start being charged. Thank you for using Parkr! Drive safe, drive smart!'
-    message = client.messages.create(from_ = '+12017293896', body = msg, to = usr)
-    return 'Message ID: ' + message.sid + ', Message: ' + msg
-
 if __name__ == '__main__':
     # Connect to the PostgreSQL database server
     conn = None
