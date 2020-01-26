@@ -22,7 +22,7 @@ def readImage1():
 
     parkingID = 1
     if len(lst) == 1:
-        return lst[0], parkingID
+        return lst[0].replace(" ",""), parkingID
     else:
         licensePlate = ""
         return licensePlate,parkingID
@@ -39,14 +39,14 @@ def readImage2():
     print(lst)
 
     if len(lst) == 1 and lst[0] != "SON":
-        licensePlate3 = lst[0]
+        licensePlate3 = lst[0].replace(" ","")
         licensePlate2 = ""
     elif len(lst) == 2 and lst[0] == "SON":
-        licensePlate2 = lst[1]
+        licensePlate2 = lst[1].replace(" ","")
         licensePlate3 = ""
     elif len(lst) == 2 and lst[0] != "SON":
-        licensePlate2 = lst[1]
-        licensePlate3 = lst[0]
+        licensePlate2 = lst[1].replace(" ","")
+        licensePlate3 = lst[0].replace(" ","")
     elif len(lst) == 1 and lst[0] == "SON":
         licensePlate2 = ""
         licensePlate3 = ""
