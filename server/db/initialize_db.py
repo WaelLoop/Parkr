@@ -1,6 +1,6 @@
 # Initalizes the database tables and seeds
-from credentials import db_name, user, pw, db_url
-from sql.tables import tables
+from db.credentials import db_name, user, pw, db_url
+from db.sql.tables import tables
 import psycopg2 as pg
 import sys
 

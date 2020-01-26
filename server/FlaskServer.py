@@ -1,5 +1,7 @@
 from db.credentials import db_name, user, pw, db_url
+from db.initialize_db import insertIntoTable
 from flask import Flask, request
+from twilio.rest import Client
 import psycopg2
 import json
 
@@ -23,10 +25,11 @@ def home():
 # parkingID = 1, licensePlate = H9R1K7
 @app.route('/updateParkingSpot')
 def updateParkingSpot():
-    licensePlate = request.args.get('licensePlate', default = 'emptyLicensePlate', type = str)
-    parkingID = request.args.get('parkingID', default = 'emptyParkingID', type = str)
+    licensePlate = request.args.get('licensePlate', default = NULL, type = str)
+    parkingID = request.args.get('parkingID', default = 0, type = int)
     return 'licensePlate = ' + licensePlate + ', parkingID = ' + parkingID
 
+# query parkingSpots table, get everything and send as a json
 @app.route('/getParkingSpots')
 def getParkingSpots():
     data = {}
@@ -38,6 +41,17 @@ def getParkingSpots():
 def getHeatMaps():
     return "connect & query postgresql database for statistics"
 
+# send sms when OPENING a session and when closing a session
+@app.route('/smsTest')
+def sms():
+    account_sid = 'AC21e9227565ca47b0068120482bc4547d'
+    auth_token = 'd0e220f950095f9fa292666afde9c769'
+    client = Client(account_sid, auth_token)
+    msg = 'You have just claimed your parking spot! You will now start being charged. Thank you for using Parkr! Drive safe, drive smart!'
+    usr = '+14389376453'
+    message = client.messages.create(from_ = '+12017293896', body = msg, to = usr)
+    return 'Message ID: ' + message.sid + ', Message: ' + msg
+
 if __name__ == '__main__':
     # Connect to the PostgreSQL database server
     conn = None
@@ -47,6 +61,7 @@ if __name__ == '__main__':
         conn = psycopg2.connect(host = db_url, database = db_name, user = user, password = pw)
         # server running
         app.run(host='127.0.0.1', port=8080)
+        
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
