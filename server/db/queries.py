@@ -4,6 +4,20 @@ from .initialize_db import insertIntoTable
 import psycopg2 as pg
 import sys
 
+#List of columnnames and list of tuples representing rows
+def mapToDict(attributes, values):
+    finalres = []
+    attributes = list(attributes)
+    for row in values:
+        res = {}
+        for i in range(len(attributes)):
+
+            res[attributes[i]] = row[i]
+        finalres.append(res)
+    
+    return finalres
+
+
 def getTableByRow(conn, table, pk):
     command = f"""
         SELECT *
@@ -143,6 +157,24 @@ def getLatestPk(conn, table, pk='id'):
     cur.close()
 
     return res[0]
+
+def getAllParkingSpots(conn):
+    command = """
+        SELECT *
+        FROM parking_spots
+    """
+
+    try:
+        cur = conn.cursor()
+        cur.execute(command)
+
+        res = cur.fetchall()
+        print(res)
+        cur.close()
+        return mapToDict(tables.keys(),res)
+    except:
+        e = sys.exc_info()[0]
+        print(f"{e}")
 
 if __name__ == "__main__":
     conn = pg.connect(host=db_url, database=db_name, user=user, password=pw)

@@ -1,6 +1,6 @@
 from db.credentials import db_name, user, pw, db_url
 from db.initialize_db import insertIntoTable, resetDB, seed
-from db.queries import updateParkingSpot, getTableValueByName
+from db.queries import updateParkingSpot, getTableValueByName, getAllParkingSpots
 from auth_token import auth_token, usr
 from db.sql.tables import tables
 from flask import Flask, request
@@ -84,8 +84,9 @@ def updateSpot():
 # query parkingSpots table, get everything and send as a json
 @app.route('/getParkingSpots')
 def getParkingSpots():
+    spots = getAllParkingSpots(conn)
     data = {}
-    data['key'] = 'value'
+    data['result'] = spots
     json_data = json.dumps(data)
     return json_data
 
