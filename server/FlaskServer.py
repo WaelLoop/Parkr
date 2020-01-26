@@ -1,6 +1,6 @@
 from db.credentials import db_name, user, pw, db_url
 from db.initialize_db import insertIntoTable
-from auth_token import auth_token, user
+from auth_token import auth_token, usr
 from flask import Flask, request
 from twilio.rest import Client
 import psycopg2
@@ -20,14 +20,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return 'db_name = ' + db_name + ', user = ' + user + ', pw = ' + pw + ', db_url = ' + db_url
+    return 'Parkr'
 
 # http://127.0.0.1:8080/updateParkingSpot?licensePlate=H9R1K7&parkingID=1
 # parkingID = 1, licensePlate = H9R1K7
 @app.route('/updateParkingSpot')
 def updateParkingSpot():
-    licensePlate = request.args.get('licensePlate', default = NULL, type = str)
-    parkingID = request.args.get('parkingID', default = 0, type = int)
+    licensePlate = request.args.get('licensePlate', default = 'emptyLicensePlate', type = str)
+    parkingID = request.args.get('parkingID', default = 'emptyParkingID', type = str) # must cast to int
     return 'licensePlate = ' + licensePlate + ', parkingID = ' + parkingID
 
 # query parkingSpots table, get everything and send as a json
@@ -47,7 +47,6 @@ def getHeatMaps():
 def sms():
     client = Client('AC21e9227565ca47b0068120482bc4547d', auth_token)
     msg = 'You have just claimed your parking spot! You will now start being charged. Thank you for using Parkr! Drive safe, drive smart!'
-    usr = user
     message = client.messages.create(from_ = '+12017293896', body = msg, to = usr)
     return 'Message ID: ' + message.sid + ', Message: ' + msg
 
