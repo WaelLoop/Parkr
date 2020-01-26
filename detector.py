@@ -73,12 +73,6 @@ def computerVisionPipeline():
     licensePlate1,parkingID1 = readImage1()
     licensePlate2,parkingID2,licensePlate3,parkingID3 = readImage2()
 
-    # To Send the requests to flask server
-    host = '132.205.229.124'
-    command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
-    command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
-    command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
-
     # trigger arduino simulation accordingly
     if licensePlate1 == "":
         # Turn on
@@ -86,7 +80,6 @@ def computerVisionPipeline():
     else:
         # Turn off, Occupied
         trigger(0)
-        subprocess.call(command, shell=True)
 
     if licensePlate2 == "":
         # Turn on
@@ -94,7 +87,6 @@ def computerVisionPipeline():
     else:
         # Turn off, Occupied
         trigger(2)
-        subprocess.call(command2, shell=True)
 
     if licensePlate3 == "":
         # Turn on
@@ -102,7 +94,16 @@ def computerVisionPipeline():
     else:
         # Turn off, Occupied
         trigger(4)
-        subprocess.call(command3, shell=True)
+
+    # Send the requests to flask server
+    host = '132.205.229.124'
+    command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
+    command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
+    command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
+
+    subprocess.call(command, shell=True)
+    subprocess.call(command2, shell=True)
+    subprocess.call(command3, shell=True)
 
 
 if __name__ == '__main__':
