@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "licenseplaterecognition-266303",
+  "private_key_id": "6e8a49ff79556032523f5dca64436f30963ab3c4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCa+fSKVcbTTV5R\n4mpNJSx44wK2iVwLgGEzPtWulMPfvaSoKHlMWiazvMycOKw0EFFW3CALPVKVC4p7\n6gXm9Gv9Oe/37N+SRDWolrAiD2JcZbMtKUMExvQaBtyrFc0sug1jaSPONULFOdIC\n6AsdYAh1wTDzqCAwHM9B84ZVWtEwJvXypkAKkIaoXbu6XzBCnwaOUVey0E5i416B\n/bp05kt1y+BH6MSe563PrevavujRXqsaEVLjXgM8ethdeO4wzrefJbgVQjdfTOEX\nCbbxwll36+2iDW9xRMSlV1Rxnr9F+CUzEUD9uJXILfLHdsUb59DcbMXqdwaZSWbU\nuNlrB1ZnAgMBAAECggEAAUWDvvyInIRcRuVuZCKBYAyKfShZErOoGIHUC5IU5w4y\nIxXtWyOWykYq3C1GSiTIIX7ilGviq0nSGHx3ERMvLVr/Mi/X7J0DzNW9ZDfdPQX6\n4Kf7J6UqPvxr/6bI/5oXMONUhim/bDbW8tlxHedw83isB9zma0fIFvsCPpR3muvP\nEEZW+N2eqAY8vbJLHAsAQ2Q6f2zwdbdFbx52/uZaEkK5kNQNZoM9g0ZOygfJPZte\nfCVtt7yGxlaXSINLrlAKHcuMAVHfF9XnFrl+nUF43gjo0tAqexb/lBwhqzQv3cf3\nbsdfsKjNboaI4VLto1IFe7+dfrfyJSYhcNmHBsj/AQKBgQDXmkGRE4us0t/QV/JQ\nKmmkdS+/Y/6sA4y97VwSxIw7AG5piHRPA9j2PAQ/5Cn0Go5tVjol06P3YTGIalh+\n80LyCJGLbLBR7ZbUL7uBJtfLIg/BbJXGrBsBFWALl4KNXlQ7m7WvZrPqbAkhEBsD\nyiZhhuIOMzDFzwqXHzVO5j2b4QKBgQC4A6lTqXmEK9nHxv/xe1GH3MYaPaz2QqEH\no17P2Mo7JqKlwNxo9VhuSTTLodYNFGF5B+T6uLCwcZ/eYxJ3uXZY+4i1Fma3Mu/3\nHOTVQ/ATDxjW6rn3v0o6VEC1LDPDDyrQ40i1wcSO16vEc/sgjgqBiPsG3CGovILz\nj6VVl4x7RwKBgQCMMNttcB4kVEIAAQ+onMtwilpvwp94Th6X6N0zvuXH/7HLoVSv\nhDrxcXj56mx1M0dlROouan11f5drsmq0sYzYQEYTOKs1up2WfysXAaDTjuRbyzVg\np8wvWizHnM7hCXMQB2GOGePnDDSrcQN/5VQrmj8nKJYQKV4jgcFx+jgZQQKBgF+O\nBy/aoa9w1fZX8DCFySC0FGsr+9UlZFmDDIkCGoH83hkUvWADh5g9i5zyvSStoLAo\n2U8Y+Sem2U2yRLTHKh2rAKKIr24SlWnNJ0dXsCM1g8CWw1tTikgf2Do8aeSwy5sN\na4R2yosik5/AWnfdSrdZWoGFbjUhLx8rSL/ZoqmhAoGBALFYB3C3ttnU2X8l8XA9\nz+DIRDaTmbv4kKD+vVFuuNAI/fkK3F+jrvnStc5Z+WotjDr2rQP75gsAWx37JTyF\ng9Pbi401n7Gv7GwgoJhEwYKFTg1ET3SFTjssgvSDD4KOkBdE7jLphi40GS40QIy4\nMsZaMEPb8XedLMwKVpJfJa5V\n-----END PRIVATE KEY-----\n",
+  "client_email": "my-vision-sa@licenseplaterecognition-266303.iam.gserviceaccount.com",
+  "client_id": "100213850134647980019",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/my-vision-sa%40licenseplaterecognition-266303.iam.gserviceaccount.com"
+}
