@@ -82,7 +82,7 @@ def resetDB(conn, tables):
         initTableIfDoesntExist(conn, table, tables.get(table))
 
 def seed(conn, tables):
-    licensePlates = ['A1B2C3','D4E7H0','Z6P9Y8']
+    licensePlates = ['756JWB','123ABC','890XYZ']
     phoneNumbers = ['+15147425793', '+14389376453', '+15148021867']
 
     try:
