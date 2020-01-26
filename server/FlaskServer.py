@@ -1,10 +1,9 @@
 from db.credentials import db_name, user, pw, db_url
 from db.initialize_db import insertIntoTable
 from auth_token import auth_token, usr
-from flask import Flask, request
+from flask import Flask, request, render_template, jsonify
 from twilio.rest import Client
 import psycopg2
-import json
 
 # www.api.py
 
@@ -16,11 +15,11 @@ import json
 # https://aws.amazon.com/blogs/database/using-the-data-api-to-interact-with-an-amazon-aurora-serverless-mysql-database/
 # Wael sends license plate & parking spot to server; method sends the info from a docString to the database. Post request end-point args = parkingID, licensePlate
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='..\\show-parking-spots\\public')
 
 @app.route('/')
 def home():
-    return 'Parkr'
+    return render_template('index.html')
 
 # http://127.0.0.1:8080/updateParkingSpot?licensePlate=H9R1K7&parkingID=1
 # parkingID = 1, licensePlate = H9R1K7
@@ -33,10 +32,7 @@ def updateParkingSpot():
 # query parkingSpots table, get everything and send as a json
 @app.route('/getParkingSpots')
 def getParkingSpots():
-    data = {}
-    data['key'] = 'value'
-    json_data = json.dumps(data)
-    return json_data
+    return jsonify(...)
 
 @app.route('/getHeatMaps')
 def getHeatMaps():
