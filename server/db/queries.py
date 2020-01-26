@@ -86,7 +86,7 @@ def updateParkingSpot(conn, license, parkingId):
         cur.execute(getCurrentOccupancy)
 
         res = cur.fetchone()
-        print('res', res)
+
         cur.close()
 
         # If there was no car at that position
@@ -117,13 +117,12 @@ def updateParkingSpot(conn, license, parkingId):
             # Here it means no license plate so the car just left
             else:
                 currentSessionId = getTableValueByName(conn, 'parking_spots','session_id',('id', parkingId))
-                print('yello',currentSessionId)
+
                 updateTable(conn, 'parking_spots', [('session_id','NULL')],('id',parkingId))
-                print('hello')
+
                 # end the session
                 updateTable(conn, 'parking_sessions',[('end_time','CURRENT_TIMESTAMP')],('id',currentSessionId))
-                print('allo')
-                print(getTableValueByName(conn, 'vehicles', 'owner',('license', res[0])))
+
                 # Now we return the user info of the person that just left
                 return (getTableValueByName(conn, 'vehicles', 'owner',('license', res[0])), currentSessionId)
 
