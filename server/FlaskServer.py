@@ -1,9 +1,14 @@
-from db.credentials import db_name, user, pw, db_url
-from db.initialize_db import insertIntoTable
-from auth_token import auth_token, usr
-from flask import Flask, request, render_template, jsonify
+from server.db.credentials import db_name, user, pw, db_url
+from server.db.initialize_db import insertIntoTable, resetDB, seed
+from server.db.queries import updateParkingSpot, getTableValueByName, getAllParkingSpots
+from server.auth_token import auth_token, usr
+from server.db.sql.tables import tables
+from flask import Flask, request, render_template
 from twilio.rest import Client
 import psycopg2
+import sys
+import json
+from datetime import datetime, timedelta
 
 # www.api.py
 
@@ -21,30 +26,73 @@ app = Flask(__name__, template_folder='..\\show-parking-spots\\public')
 def home():
     return render_template('index.html')
 
+conn = None
+
+def sendSMS(msg,usr):
+    client = Client('AC21e9227565ca47b0068120482bc4547d', auth_token)
+    message = client.messages.create(from_ = '+12017293896', body = msg, to = usr)
+    return 'Message ID: ' + message.sid + ', Message: ' + msg
+
+def splitDate(dateTime):
+    [date, time] = dateTime.split(" ")
+    date = date.split('-')
+    time = time.split('.')[0].split(':')
+
+    for i in range(len(date)):
+        date[i] = int(date[i])
+        if i == 0:
+            time[i] = int(time[i])+5
+        else:
+            time[i] = int(time[i])
+    
+    return datetime(date[0],date[1],date[2],time[0],time[1],time[2])
+
+def duration(startTime, endTime):
+    # d1 = splitDate(startTime)
+    # d2 = splitDate(endTime)
+    duration = (endTime-startTime).seconds
+    return (duration//60, duration%60)
+
 # http://127.0.0.1:8080/updateParkingSpot?licensePlate=H9R1K7&parkingID=1
 # parkingID = 1, licensePlate = H9R1K7
 @app.route('/updateParkingSpot')
-def updateParkingSpot():
+def updateSpot():
     licensePlate = request.args.get('licensePlate', default = 'emptyLicensePlate', type = str)
     parkingID = request.args.get('parkingID', default = 'emptyParkingID', type = str) # must cast to int
-    return 'licensePlate = ' + licensePlate + ', parkingID = ' + parkingID
+    
+    if licensePlate == "":
+        licensePlate = None
+    else:
+        licensePlate = licensePlate.upper()
+
+    res = updateParkingSpot(conn,licensePlate, parkingID)
+    print('result', res)
+    if res is not None:
+        userId, sessionId = res;
+        phone = getTableValueByName(conn, 'person', 'phone_num', ('id',userId))
+
+        startTime = getTableValueByName(conn, 'parking_sessions','start_time',('id',sessionId))
+        endTime = getTableValueByName(conn, 'parking_sessions', 'end_time', ('id',sessionId))
+
+        dur = duration(startTime, endTime)
+
+        if phone is not None:
+            sendSMS(f"Don't forget to pay for parking {dur[0]} minutes and {dur[1]} seconds!",phone)
+
+    return 'licensePlate = ' +  '' if licensePlate is None else licensePlate + ', parkingID = ' + parkingID
 
 # query parkingSpots table, get everything and send as a json
 @app.route('/getParkingSpots')
 def getParkingSpots():
-    return jsonify(...)
+    spots = getAllParkingSpots(conn)
+    data = {}
+    data['result'] = spots
+    json_data = json.dumps(data)
+    return json_data
 
 @app.route('/getHeatMaps')
 def getHeatMaps():
     return "connect & query postgresql database for statistics"
-
-# send sms when OPENING a session and when closing a session
-@app.route('/smsTest')
-def sms():
-    client = Client('AC21e9227565ca47b0068120482bc4547d', auth_token)
-    msg = 'You have just claimed your parking spot! You will now start being charged. Thank you for using Parkr! Drive safe, drive smart!'
-    message = client.messages.create(from_ = '+12017293896', body = msg, to = usr)
-    return 'Message ID: ' + message.sid + ', Message: ' + msg
 
 if __name__ == '__main__':
     # Connect to the PostgreSQL database server
@@ -53,10 +101,18 @@ if __name__ == '__main__':
         # read connection parameters from credentials.py & connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
         conn = psycopg2.connect(host = db_url, database = db_name, user = user, password = pw)
+
+        #reset the db at the start of the app
+        resetDB(conn,tables)
+        #seed the db
+        seed(conn, tables)
+
         # server running
-        app.run(host='127.0.0.1', port=8080)
+        app.run(host='127.0.0.1', port=5000)
         
     except (Exception, psycopg2.DatabaseError) as error:
+        e = sys.exc_info()[0]
+        print(f"{e}")
         print(error)
     finally:
         if conn is not None:

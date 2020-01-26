@@ -19,7 +19,7 @@ def pullPicture(deviceID, sleepTime):
     else :
         os.system('sleep %d' % sleepTime)
         subprocess.call('adb -s %s shell mv /sdcard/DCIM/Camera/20200125*.jpg /sdcard/DCIM/Camera/image2.jpg' % deviceID,shell=True)
-        subprocess.call('adb -s %s pull /sdcard/DCIM/Camera/image2.jpg %s' % (deviceID, os.path.abspath("images")),shell=True)
+        subprocess.call('adb -s %s pull /sdcard/DCIM/Camera/image2.jpg %s' % (deviceID, os.path.abspath("images")), shell=True)
         subprocess.call('adb -s %s shell rm /sdcard/DCIM/Camera/image2.jpg' % deviceID,shell=True)
 
 # our pipeline
@@ -34,10 +34,10 @@ def autoPicturePipeline(sleepTimer,deviceID):
 def main(sleepTimer=1):
     # devices IDs
     onePlus = "9b28cb0d"
-    LG = "R58M246LLTA"
+    samsung = "R58M246LLTA"
 
     thread1 = Thread(target=autoPicturePipeline, args=(sleepTimer, onePlus))
-    thread2 = Thread(target=autoPicturePipeline, args=(sleepTimer, LG))
+    thread2 = Thread(target=autoPicturePipeline, args=(sleepTimer, samsung))
 
     # start the threads
     thread1.start()

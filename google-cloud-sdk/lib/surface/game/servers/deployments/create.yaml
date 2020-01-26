@@ -1,0 +1,24 @@
+- release_tracks: [ALPHA]
+
+  help_text:
+    brief: Create a Deployment.
+    description: Create a Cloud Game Server Deployment.
+
+  request:
+    collection: gameservices.projects.locations.gameServerDeployments
+
+  arguments:
+    resource:
+      help_text: Cloud Game Server Deployment to create.
+      spec: !REF googlecloudsdk.command_lib.game.resources:deployment
+
+    params:
+    - arg_name: description
+      api_field: gameServerDeployment.description
+      help_text: |
+        Game server deployment description.
+    labels:
+      api_field: gameServerDeployment.labels
+
+  async:
+    collection: gameservices.projects.locations.operations

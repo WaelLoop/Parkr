@@ -1,0 +1,37 @@
+{
+  "components": [
+    {
+      "data": {
+        "contents_checksum": "21f63b55a2739a7221a232a2291cbe75bfda7451699a1423a0258ec876acc658", 
+        "source": "", 
+        "type": "tar"
+      }, 
+      "dependencies": [
+        "core-nix", 
+        "core-win", 
+        "gcloud-deps", 
+        "ssh-tools"
+      ], 
+      "details": {
+        "description": "Handles all core functionality for the Cloud SDK.", 
+        "display_name": "Cloud SDK Core Libraries"
+      }, 
+      "id": "core", 
+      "is_configuration": false, 
+      "is_hidden": false, 
+      "is_required": true, 
+      "platform": {}, 
+      "version": {
+        "build_number": 20200117151139, 
+        "version_string": "2020.01.17"
+      }
+    }
+  ], 
+  "revision": 20200117151139, 
+  "schema_version": {
+    "no_update": false, 
+    "url": "https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz", 
+    "version": 3
+  }, 
+  "version": "277.0.0"
+}
