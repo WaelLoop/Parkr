@@ -1,8 +1,8 @@
-from server.db.credentials import db_name, user, pw, db_url
-from server.db.initialize_db import insertIntoTable, resetDB, seed
-from server.db.queries import updateParkingSpot, getTableValueByName, getAllParkingSpots
-from server.auth_token import auth_token, usr
-from server.db.sql.tables import tables
+from db.credentials import db_name, user, pw, db_url
+from db.initialize_db import insertIntoTable, resetDB, seed
+from db.queries import updateParkingSpot, getTableValueByName, getAllParkingSpots
+from auth_token import auth_token, usr
+from db.sql.tables import tables
 from flask import Flask, request, render_template
 from twilio.rest import Client
 import psycopg2
