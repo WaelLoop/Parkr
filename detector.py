@@ -14,33 +14,45 @@ NOTE: Image1 holds the parkingID = 1
 
 # function that reads image1
 def readImage1():
-    licensePlate = detect_text(os.path.join("images","image11.jpeg"))
+    licensePlate = detect_text(os.path.join("images", "image1.jpg"))
+    print(licensePlate)
     parkingID = 1
-
-    return licensePlate, parkingID
+    if (licensePlate.isupper() and len(licensePlate) == 7):
+        return licensePlate, parkingID
+    else:
+        licensePlate = ""
+        return licensePlate,parkingID
 
 
 # function that reads image2, this is composed of two subimages
 def readImage2():
-    img = cv2.imread(os.path.join("images","image2.jpeg"))
-    row, col, _ = img.shape
-    # integer division
-    newCol = col//2
+    # Read the text
+    licensePlates = detect_text(os.path.join("images","image2.jpg"))
+    licensePlates = licensePlates.split('\n')
 
-    # split the image into two
-    subImage2 = img[:newCol,:]
+    lst = [lp for lp in licensePlates if (lp.isupper() and len(lp) == 7) or lp == "SON"]
+
+    print(lst)
+
+    if len(lst) == 1 and lst[0] != "SON":
+        licensePlate3 = lst[0]
+        licensePlate2 = ""
+    elif len(lst) == 2 and lst[0] == "SON":
+        licensePlate2 = lst[1]
+        licensePlate3 = ""
+    elif len(lst) == 2 and lst[0] != "SON":
+        licensePlate2 = lst[1]
+        licensePlate3 = lst[0]
+    elif len(lst) == 1 and lst[0] == "SON":
+        licensePlate2 = ""
+        licensePlate3 = ""
+    else:
+        licensePlate2 = ""
+        licensePlate3 = ""
+
     parkingID2 = 2
-
-    subImage3 = img[newCol:,:]
     parkingID3 = 3
 
-    # Write the new sub-images
-    cv2.imwrite(os.path.join("images","image2.jpeg"),subImage2)
-    cv2.imwrite(os.path.join("images","image3.jpeg"),subImage3)
-
-    # Read the text
-    licensePlate2 = detect_text(os.path.join("images","image2.jpeg"))
-    licensePlate3 = detect_text(os.path.join("images","image3.jpeg"))
 
     return licensePlate2,parkingID2,licensePlate3,parkingID3
 
@@ -60,7 +72,8 @@ def detect_text(image):
         texts = response.text_annotations
 
         return texts[0].description.strip()
-    except:
+    except Exception as e:
+        print(e)
         return ""
 
 # our pipeline
@@ -68,6 +81,8 @@ def computerVisionPipeline():
 
     # First we caputure the photos using the phones
     main(1)
+
+    time.sleep(4)
 
     # Now we read the images
     licensePlate1,parkingID1 = readImage1()
@@ -95,19 +110,19 @@ def computerVisionPipeline():
         # Turn off, Occupied
         trigger(4)
 
-    # Send the requests to flask server
-    host = '132.205.229.124'
-    command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
-    command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
-    command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
-
-    subprocess.call(command, shell=True)
-    subprocess.call(command2, shell=True)
-    subprocess.call(command3, shell=True)
+    # # Send the requests to flask server
+    # host = '132.205.229.124'
+    # command = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate1}&parkingID={parkingID1}'
+    # command2 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate2}&parkingID={parkingID2}'
+    # command3 = f'curl -s {host}:8080/updateParkingSpot?licensePlate={licensePlate3}&parkingID={parkingID3}'
+    #
+    # subprocess.call(command, shell=True)
+    # subprocess.call(command2, shell=True)
+    # subprocess.call(command3, shell=True)
 
 
 if __name__ == '__main__':
     while(True):
         computerVisionPipeline()
         # perform the function every 5 seconds
-        time.sleep(5)
+        time.sleep(2)

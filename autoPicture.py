@@ -12,13 +12,13 @@ def pullPicture(deviceID, sleepTime):
     #OnePlus Command
     if(deviceID == "9b28cb0d"):
         os.system('sleep %d' % sleepTime)
-        os.system('adb -s %s shell mv /sdcard/DCIM/Camera/IMG_20200125*.jpg /sdcard/DCIM/Camera/image1.jpg' % deviceID)
+        os.system('adb -s %s shell mv /sdcard/DCIM/Camera/IMG_20200126* /sdcard/DCIM/Camera/image1.jpg' % (deviceID))
         os.system('adb -s %s pull /sdcard/DCIM/Camera/image1.jpg %s' % (deviceID, os.path.abspath("images")))
-        os.system('adb -s %s shell rm /sdcard/DCIM/Camera/image1.jpg' % deviceID)
+        os.system('adb -s %s shell rm /sdcard/DCIM/Camera/image1.jpg' % (deviceID))
     #LG Command
     else :
         os.system('sleep %d' % sleepTime)
-        subprocess.call('adb -s %s shell mv /sdcard/DCIM/Camera/20200125*.jpg /sdcard/DCIM/Camera/image2.jpg' % deviceID,shell=True)
+        subprocess.call('adb -s %s shell mv /sdcard/DCIM/Camera/20200126* /sdcard/DCIM/Camera/image2.jpg' % deviceID,shell=True)
         subprocess.call('adb -s %s pull /sdcard/DCIM/Camera/image2.jpg %s' % (deviceID, os.path.abspath("images")), shell=True)
         subprocess.call('adb -s %s shell rm /sdcard/DCIM/Camera/image2.jpg' % deviceID,shell=True)
 
@@ -31,7 +31,7 @@ def autoPicturePipeline(sleepTimer,deviceID):
     pullPicture(deviceID,sleepTimer)
 
 # main method
-def main(sleepTimer=1):
+def main(sleepTimer=5):
     # devices IDs
     onePlus = "9b28cb0d"
     samsung = "R58M246LLTA"
