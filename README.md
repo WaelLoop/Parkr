@@ -19,7 +19,7 @@ ____
 | Attribute  | Type | Extra 
 |---|---|---
 | id  | INT | PK
-| license | CHAR(6)  | FK to vehicles
+| session_id | INTEGER  | FK to parking_session
 |  address |  VARCHAR(255) |
 | urban | BOOLEAN |
 

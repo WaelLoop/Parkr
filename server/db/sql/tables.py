@@ -1,17 +1,17 @@
 parking_spot_attrs = """
     ID SERIAL PRIMARY KEY,
-    LICENCE CHAR(7) DEFAULT NULL,
+    SESSION_ID INTEGER,
     ADDRESS VARCHAR(255),
     URBAN BOOLEAN DEFAULT TRUE
 """
 
 person_attrs = """
     ID SERIAL PRIMARY KEY,
+    NAME VARCHAR(255),
     VEHICLE CHAR(7),
+    PHONE_NUM VARCHAR(15),
     GENDER VARCHAR(31) DEFAULT 'male',
-    DOB DATE,
-    INSURANCE_PROVIDER INTEGER,
-    INSURANCE_NUM INTEGER
+    DOB DATE
 """
 
 vehicle_attrs = """
@@ -30,15 +30,10 @@ parking_session_attrs = """
     START_TIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     END_TIME TIMESTAMP
 """
-insurance_attrs = """
-    ID SERIAL PRIMARY KEY,
-    NAME VARCHAR(255)
-"""
 
 tables = {
     "parking_spots": parking_spot_attrs,
     "person": person_attrs,
     "vehicles": vehicle_attrs,
     "parking_sessions": parking_session_attrs,
-    "insurance": insurance_attrs
 }
