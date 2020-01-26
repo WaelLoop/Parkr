@@ -1,5 +1,5 @@
-from db.credentials import db_name, user, pw, db_url
-from db.initialize_db import insertIntoTable
+from server.db.credentials import db_name, user, pw, db_url
+from server.db.initialize_db import insertIntoTable
 from auth_token import auth_token, user
 from flask import Flask, request
 from twilio.rest import Client
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         print('Connecting to the PostgreSQL database...')
         conn = psycopg2.connect(host = db_url, database = db_name, user = user, password = pw)
         # server running
-        app.run(host='127.0.0.1', port=8080)
+        app.run(host='132.205.229.124', port=8080)
         
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
