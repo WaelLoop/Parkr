@@ -36,9 +36,9 @@ def _GetPrimaryNodeName():
 
   Returns:
     str, the name of the primary node. If running in tensorflow 1.x,
-    return 'master'. If running in tensorflow 2.x, return 'chief'.
+    return 'main'. If running in tensorflow 2.x, return 'chief'.
     If tensorflow is not installed in local envrionment, it will return
-    the default name 'master'.
+    the default name 'main'.
   Raises:
     RuntimeError: if there is no python executable on the user system.
   """
@@ -52,12 +52,12 @@ def _GetPrimaryNodeName():
   proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
   tf_version = proc.stdout.read()
   if tf_version.startswith('1.'):
-    return 'master'
+    return 'main'
   elif tf_version.startswith('2.'):
     return 'chief'
   log.warning(
       'Unexpected tensorflow version {}, using the default primary'
-      ' node name, aka "master" for cluster settings'.format(tf_version))
+      ' node name, aka "main" for cluster settings'.format(tf_version))
   return 'chief'
 
 

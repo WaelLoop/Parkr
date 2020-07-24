@@ -346,11 +346,11 @@ ENABLE_PRIVATE_ENDPOINT_FLAG = base.Argument(
     default=None,
     action='store_true',
     help="""\
-    Environment cluster is managed using the private IP address of the master
-    API endpoint. Therefore access to the master endpoint must be from
+    Environment cluster is managed using the private IP address of the main
+    API endpoint. Therefore access to the main endpoint must be from
     internal IP addresses.
 
-    If not specified, the master API endpoint will be accessible by its public
+    If not specified, the main API endpoint will be accessible by its public
     IP address.
 
     Cannot be specified unless '--enable-private-environnment' is also
@@ -375,8 +375,8 @@ def _GetIpv4CidrMaskSize(ipv4_cidr_block):
   return 32 - (network.num_addresses.bit_length() - 1)
 
 
-def _IsValidMasterIpv4CidrBlock(ipv4_cidr_block):
-  """Validates that IPV4 CIDR block arg for the master network has valid format.
+def _IsValidMainIpv4CidrBlock(ipv4_cidr_block):
+  """Validates that IPV4 CIDR block arg for the main network has valid format.
 
   Intended to be used as an argparse validator.
 
@@ -391,14 +391,14 @@ def _IsValidMasterIpv4CidrBlock(ipv4_cidr_block):
     _GetIpv4CidrMaskSize(ipv4_cidr_block) == 28
 
 MASTER_IPV4_CIDR_BLOCK_FORMAT_VALIDATOR = arg_parsers.CustomFunctionValidator(
-    _IsValidMasterIpv4CidrBlock, _INVALID_IPV4_CIDR_BLOCK_ERROR)
+    _IsValidMainIpv4CidrBlock, _INVALID_IPV4_CIDR_BLOCK_ERROR)
 
 MASTER_IPV4_CIDR_FLAG = base.Argument(
-    '--master-ipv4-cidr',
+    '--main-ipv4-cidr',
     default=None,
     type=MASTER_IPV4_CIDR_BLOCK_FORMAT_VALIDATOR,
     help="""\
-    IPv4 CIDR range to use for the master network. This should have a netmask
+    IPv4 CIDR range to use for the main network. This should have a netmask
     of size /28.
 
     Cannot be specified unless '--enable-private-environnment' is also
